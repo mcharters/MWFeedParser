@@ -33,40 +33,31 @@
 
 @implementation MWFeedInfo
 
-@synthesize title, link, summary;
-
 #pragma mark NSObject
 
 - (NSString *)description {
 	NSMutableString *string = [[NSMutableString alloc] initWithString:@"MWFeedInfo: "];
-	if (title)   [string appendFormat:@"“%@”", EXCERPT(title, 50)];
+	if (self.title)   [string appendFormat:@"“%@”", EXCERPT(self.title, 50)];
 	//if (link)    [string appendFormat:@" (%@)", link];
 	//if (summary) [string appendFormat:@", %@", MWExcerpt(summary, 50)];
-	return [string autorelease];
-}
-
-- (void)dealloc {
-	[title release];
-	[link release];
-	[summary release];
-	[super dealloc];
+	return string;
 }
 
 #pragma mark NSCoding
 
 - (id)initWithCoder:(NSCoder *)decoder {
 	if ((self = [super init])) {
-		title = [[decoder decodeObjectForKey:@"title"] retain];
-		link = [[decoder decodeObjectForKey:@"link"] retain];
-		summary = [[decoder decodeObjectForKey:@"summary"] retain];
+		_title = [decoder decodeObjectForKey:@"title"];
+		_link = [decoder decodeObjectForKey:@"link"];
+		_summary = [decoder decodeObjectForKey:@"summary"];
 	}
 	return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-	if (title) [encoder encodeObject:title forKey:@"title"];
-	if (link) [encoder encodeObject:link forKey:@"link"];
-	if (summary) [encoder encodeObject:summary forKey:@"summary"];
+	if (self.title) [encoder encodeObject:self.title forKey:@"title"];
+	if (self.link) [encoder encodeObject:self.link forKey:@"link"];
+	if (self.summary) [encoder encodeObject:self.summary forKey:@"summary"];
 }
 
 @end

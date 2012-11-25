@@ -33,56 +33,42 @@
 
 @implementation MWFeedItem
 
-@synthesize identifier, title, link, date, updated, summary, content, enclosures;
-
 #pragma mark NSObject
 
 - (NSString *)description {
 	NSMutableString *string = [[NSMutableString alloc] initWithString:@"MWFeedItem: "];
-	if (title)   [string appendFormat:@"“%@”", EXCERPT(title, 50)];
-	if (date)    [string appendFormat:@" - %@", date];
+	if (self.title)   [string appendFormat:@"“%@”", EXCERPT(self.title, 50)];
+	if (self.date)    [string appendFormat:@" - %@", self.date];
 	//if (link)    [string appendFormat:@" (%@)", link];
 	//if (summary) [string appendFormat:@", %@", EXCERPT(summary, 50)];
-	return [string autorelease];
-}
-
-- (void)dealloc {
-	[identifier release];
-	[title release];
-	[link release];
-	[date release];
-	[updated release];
-	[summary release];
-	[content release];
-	[enclosures release];
-	[super dealloc];
+	return string;
 }
 
 #pragma mark NSCoding
 
 - (id)initWithCoder:(NSCoder *)decoder {
 	if ((self = [super init])) {
-		identifier = [[decoder decodeObjectForKey:@"identifier"] retain];
-		title = [[decoder decodeObjectForKey:@"title"] retain];
-		link = [[decoder decodeObjectForKey:@"link"] retain];
-		date = [[decoder decodeObjectForKey:@"date"] retain];
-		updated = [[decoder decodeObjectForKey:@"updated"] retain];
-		summary = [[decoder decodeObjectForKey:@"summary"] retain];
-		content = [[decoder decodeObjectForKey:@"content"] retain];
-		enclosures = [[decoder decodeObjectForKey:@"enclosures"] retain];
+		_identifier = [decoder decodeObjectForKey:@"identifier"];
+		_title = [decoder decodeObjectForKey:@"title"];
+		_link = [decoder decodeObjectForKey:@"link"];
+		_date = [decoder decodeObjectForKey:@"date"];
+		_updated = [decoder decodeObjectForKey:@"updated"];
+		_summary = [decoder decodeObjectForKey:@"summary"];
+		_content = [decoder decodeObjectForKey:@"content"];
+		_enclosures = [decoder decodeObjectForKey:@"enclosures"];
 	}
 	return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-	if (identifier) [encoder encodeObject:identifier forKey:@"identifier"];
-	if (title) [encoder encodeObject:title forKey:@"title"];
-	if (link) [encoder encodeObject:link forKey:@"link"];
-	if (date) [encoder encodeObject:date forKey:@"date"];
-	if (updated) [encoder encodeObject:updated forKey:@"updated"];
-	if (summary) [encoder encodeObject:summary forKey:@"summary"];
-	if (content) [encoder encodeObject:content forKey:@"content"];
-	if (enclosures) [encoder encodeObject:enclosures forKey:@"enclosures"];
+	if (self.identifier) [encoder encodeObject:self.identifier forKey:@"identifier"];
+	if (self.title) [encoder encodeObject:self.title forKey:@"title"];
+	if (self.link) [encoder encodeObject:self.link forKey:@"link"];
+	if (self.date) [encoder encodeObject:self.date forKey:@"date"];
+	if (self.updated) [encoder encodeObject:self.updated forKey:@"updated"];
+	if (self.summary) [encoder encodeObject:self.summary forKey:@"summary"];
+	if (self.content) [encoder encodeObject:self.content forKey:@"content"];
+	if (self.enclosures) [encoder encodeObject:self.enclosures forKey:@"enclosures"];
 }
 
 @end

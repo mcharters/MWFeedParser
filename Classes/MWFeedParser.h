@@ -109,7 +109,7 @@ typedef enum { FeedTypeUnknown, FeedTypeRSS, FeedTypeRSS1, FeedTypeAtom } FeedTy
 #pragma mark Public Properties
 
 // Delegate to recieve data as it is parsed
-@property (nonatomic, assign) id <MWFeedParserDelegate> delegate;
+@property (nonatomic, weak) id <MWFeedParserDelegate> delegate;
 
 // Whether to parse feed info & all items, just feed info, or just feed items
 @property (nonatomic) ParseType feedParseType;
