@@ -51,7 +51,7 @@
 // Properties
 @synthesize url;
 @synthesize urlConnection, asyncData, asyncTextEncodingName, connectionType;
-@synthesize feedParseType, feedParser, currentPath, currentText, currentElementAttributes, item, info;
+@synthesize feedParseType, feedParser, feedType, currentPath, currentText, currentElementAttributes, item, info;
 @synthesize pathOfElementWithXHTMLType;
 @synthesize stopped, failed, parsing;
 
@@ -68,12 +68,12 @@
 		// Date Formatters
 		// Good info on internet dates here: http://developer.apple.com/iphone/library/qa/qa2010/qa1480.html
 		NSLocale *en_US_POSIX = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-		dateFormatterRFC822 = [[NSDateFormatter alloc] init];
-		dateFormatterRFC3339 = [[NSDateFormatter alloc] init];
-        [dateFormatterRFC822 setLocale:en_US_POSIX];
-        [dateFormatterRFC3339 setLocale:en_US_POSIX];
-        [dateFormatterRFC822 setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-        [dateFormatterRFC3339 setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+		_dateFormatterRFC822 = [[NSDateFormatter alloc] init];
+		_dateFormatterRFC3339 = [[NSDateFormatter alloc] init];
+        [_dateFormatterRFC822 setLocale:en_US_POSIX];
+        [_dateFormatterRFC3339 setLocale:en_US_POSIX];
+        [_dateFormatterRFC822 setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        [_dateFormatterRFC3339 setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
 		
 	}
 	return self;
@@ -125,7 +125,7 @@
 	[self reset];
 	
 	// Perform checks before parsing
-	if (!url || !delegate) { [self parsingFailedWithErrorCode:MWErrorCodeNotInitiated 
+	if (!url || !self.delegate) { [self parsingFailedWithErrorCode:MWErrorCodeNotInitiated
 											   andDescription:@"Delegate or URL not specified"]; return NO; }
 	if (parsing) { [self parsingFailedWithErrorCode:MWErrorCodeGeneral 
 									 andDescription:@"Cannot start parsing as parsing is already in progress"]; return NO; }
@@ -321,8 +321,8 @@
 		// Set state and notify delegate
 		parsing = NO;
 		parsingComplete = YES;
-		if ([delegate respondsToSelector:@selector(feedParserDidFinish:)])
-			[delegate feedParserDidFinish:self];
+		if ([self.delegate respondsToSelector:@selector(feedParserDidFinish:)])
+			[self.delegate feedParserDidFinish:self];
 		
 		// Reset
 		[self reset];
@@ -359,8 +359,8 @@
 		[self reset];
 		
 		// Inform delegate
-		if ([delegate respondsToSelector:@selector(feedParser:didFailWithError:)])
-			[delegate feedParser:self didFailWithError:error];
+		if ([self.delegate respondsToSelector:@selector(feedParser:didFailWithError:)])
+			[self.delegate feedParser:self didFailWithError:error];
 		
 	}
 	
@@ -723,8 +723,8 @@
 	MWLog(@"MWFeedParser: Parsing started");
 	
 	// Inform delegate
-	if ([delegate respondsToSelector:@selector(feedParserDidStart:)])
-		[delegate feedParserDidStart:self];
+	if ([self.delegate respondsToSelector:@selector(feedParserDidStart:)])
+		[self.delegate feedParserDidStart:self];
 	
 }
 
@@ -766,8 +766,8 @@
 	if (info) {
 	
 		// Inform delegate
-		if ([delegate respondsToSelector:@selector(feedParser:didParseFeedInfo:)])
-			[delegate feedParser:self didParseFeedInfo:info];
+		if ([self.delegate respondsToSelector:@selector(feedParser:didParseFeedInfo:)])
+			[self.delegate feedParser:self didParseFeedInfo:info];
 		
 		// Debug log
 		MWLog(@"MWFeedParser: Feed info for \"%@\" successfully parsed", info.title);
@@ -789,8 +789,8 @@
 		MWLog(@"MWFeedParser: Feed item \"%@\" successfully parsed", item.title);
 		
 		// Inform delegate
-		if ([delegate respondsToSelector:@selector(feedParser:didParseFeedItem:)])
-			[delegate feedParser:self didParseFeedItem:item];
+		if ([self.delegate respondsToSelector:@selector(feedParser:didParseFeedItem:)])
+			[self.delegate feedParser:self didParseFeedItem:item];
 		
 		// Finish
 		self.item = nil;

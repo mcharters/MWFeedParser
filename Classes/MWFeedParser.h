@@ -68,41 +68,16 @@ typedef enum { FeedTypeUnknown, FeedTypeRSS, FeedTypeRSS1, FeedTypeAtom } FeedTy
 @interface MWFeedParser : NSObject <NSXMLParserDelegate> {
 
 @private
-	
-	// Required
-	id <MWFeedParserDelegate> delegate;
-	
-	// Connection
-	NSURLConnection *urlConnection;
-	NSMutableData *asyncData;
-	NSString *asyncTextEncodingName;
-	ConnectionType connectionType;
-	
-	// Parsing
-	ParseType feedParseType;
-	NSXMLParser *feedParser;
-	FeedType feedType;
-	NSDateFormatter *dateFormatterRFC822, *dateFormatterRFC3339;
-	
-	// Parsing State
-	NSURL *url;
-	BOOL aborted; // Whether parse stopped due to abort
+    BOOL aborted; // Whether parse stopped due to abort
 	BOOL parsing; // Whether the MWFeedParser has started parsing
 	BOOL stopped; // Whether the parse was stopped
 	BOOL failed; // Whether the parse failed
 	BOOL parsingComplete; // Whether NSXMLParser parsing has completed
 	BOOL hasEncounteredItems; // Whether the parser has started parsing items
-	
-	// Parsing of XML structure as content
+    
+    // Parsing of XML structure as content
 	NSString *pathOfElementWithXHTMLType; // Hold the path of the element who's type="xhtml" so we can stop parsing when it's ended
 	BOOL parseStructureAsContent; // For atom feeds when element type="xhtml"
-	
-	// Parsing Data
-	NSString *currentPath;
-	NSMutableString *currentText;
-	NSDictionary *currentElementAttributes;
-	MWFeedItem *item;
-	MWFeedInfo *info;
 	
 }
 

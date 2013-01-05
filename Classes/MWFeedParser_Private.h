@@ -45,6 +45,10 @@
 @property (nonatomic, retain) MWFeedItem *item;
 @property (nonatomic, retain) MWFeedInfo *info;
 @property (nonatomic, copy) NSString *pathOfElementWithXHTMLType;
+@property FeedType feedType;
+
+@property (nonatomic, strong)NSDateFormatter *dateFormatterRFC822;
+@property (nonatomic, strong)NSDateFormatter *dateFormatterRFC3339;
 
 #pragma mark Private Methods
 
