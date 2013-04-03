@@ -414,6 +414,8 @@
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI 
 									   qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict {
+    if(parser != self.feedParser) return;
+    
 	MWXMLLog(@"NSXMLParser: didStartElement: %@", qualifiedName);
 	
 	// Adjust path
@@ -538,6 +540,8 @@
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName 
 									  namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+    if(parser != self.feedParser) return;
+    
 	MWXMLLog(@"NSXMLParser: didEndElement: %@", qName);
 		
 	// Parse content as structure (Atom feeds with element type="xhtml")
@@ -680,6 +684,8 @@
 //}
 
 - (void)parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock {
+    if(parser != self.feedParser) return;
+    
 	MWXMLLog(@"NSXMLParser: foundCDATA (%d bytes)", CDATABlock.length);
 	
 	// Remember characters
@@ -699,6 +705,8 @@
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+    if(parser != self.feedParser) return;
+    
 	MWXMLLog(@"NSXMLParser: foundCharacters: %@", string);
 	
 	// Remember characters
@@ -717,6 +725,8 @@
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {
+    if(parser != self.feedParser) return;
+    
 	MWXMLLog(@"NSXMLParser: parserDidStartDocument");
 	
 	// Debug Log
@@ -729,6 +739,8 @@
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
+    if(parser != self.feedParser) return;
+    
 	MWXMLLog(@"NSXMLParser: parserDidEndDocument");
 
 	// Debug Log
@@ -741,6 +753,8 @@
 
 // Call if parsing error occured or parse was aborted
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
+    if(parser != self.feedParser) return;
+    
 	MWXMLLog(@"NSXMLParser: parseErrorOccurred: %@", parseError);
 	
 	// Fail with error
@@ -752,6 +766,8 @@
 }
 
 - (void)parser:(NSXMLParser *)parser validationErrorOccurred:(NSError *)validError {
+    if(parser != self.feedParser) return;
+    
 	MWXMLLog(@"NSXMLParser: validationErrorOccurred: %@", validError);
 	
 	// Fail with error
